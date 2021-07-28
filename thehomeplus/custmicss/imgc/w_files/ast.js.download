@@ -1,0 +1,134 @@
+//1.8 VER:1.8 and AUTO-GENERATED on DATE:2014/12/04
+(function () {
+    var _params = [], i;
+return false;
+    var empty = function (data) {
+        if (typeof data === 'number' || typeof data === 'boolean') {
+            return false;
+        }
+        if (typeof data === 'undefined' || data === null) {
+            return true;
+        }
+        if (data.length !== 'undefined') {
+            return data.length === 0;
+        }
+        var count = 0, j;
+        for (j in data) {
+            if (data.hasOwnProperty(j)) {
+                count = count + 1;
+            }
+        }
+        return count === 0;
+    };
+
+    if (typeof _atm_params === 'undefined' || _atm_params === null) {
+        return false;
+    }
+
+    for (i in _atm_params) {
+        if (_atm_params.hasOwnProperty(i) && !empty(_atm_params[i])) {
+            _params.push(encodeURIComponent(i) + "=" + encodeURIComponent(_atm_params[i]));
+        }
+    }
+
+    var _src_urls = [];
+    var _query_string = _params.join('&');
+	
+	// data pixel for collecting both dco and site visitor data
+    var data_source = '//datacdn.atomex.net/data/2078/1x1.gif?client_id=' + _atm_client_id + '&' + _query_string;
+
+    _src_urls.push(['image', data_source]);
+
+    //AP-7007- pixel for collecting both cart and converter for Appnexus and Affinity
+    if (_atm_params.f == "p" || _atm_params.f == "s" ){
+        var protocol = ('https:' === document.location.protocol);
+        var affinity_url = ( protocol ? '//px.ph.affinity.com/affretarg_sets.gif?type=komli2&expire=604800' : '//px.ph.affinity.com/affretarg_set.gif?type=komli2&expire=604800');
+        var appnexus_url = ( protocol ? '//secure.adnxs.com/seg?add=1633637&t=2' : '//ib.adnxs.com/seg?add=1633637&t=2');
+        _src_urls.push(['image', affinity_url]);
+        _src_urls.push(['image', appnexus_url]);
+    }
+
+    //sync pixel
+    if(_atm_params.f != "v"){
+        _src_urls.push(['script', '//sync.atomex.net/handlers?dsc=1&rh=rh0&atom_sc']);
+    }
+    _atm_params._atm_client_id = _atm_client_id;
+
+//facebook pixel tracking on events
+(function() {
+  var _fbq = window._fbq || (window._fbq = []);
+  if (!_fbq.loaded) {
+    var fbds = document.createElement('script');
+    fbds.async = true;
+    fbds.src = '//connect.facebook.net/en_US/fbds.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(fbds, s);
+    _fbq.loaded = true;
+  }
+  _fbq.push(['addPixelId', '613672072038229']);
+})();
+window._fbq = window._fbq || [];
+window._fbq.push(['track', 'PixelInitialized', _atm_params]);
+//Track various Facebook events for DPA campaigns
+if (!empty(_atm_params.id) && !empty(_atm_params)) {
+    //Forming string/array if id(s)
+    var p_ids = _atm_params.id.replace(/ /g, '').toString();
+    if(!(_atm_params.id instanceof Array))
+        p_ids = p_ids.split(",");
+
+    // Obejct formation to append in event trigger
+    var cObj = {
+      content_ids: p_ids,
+      content_type: 'product'
+    };
+    if (_atm_params.f === "c"){
+        window._fbq.push(['track', 'ViewContent', cObj]);
+    }
+    if (_atm_params.f === "s" ){
+        window._fbq.push(['track', 'AddToCart', cObj]);
+    }
+    if (_atm_params.f === "p"){
+        window._fbq.push(['track', 'Purchase', cObj]);
+    }
+}
+
+
+    (function (p, a) {
+        var w = window, d = document;
+        var pr = ('https:' === d.location.protocol ? 'https:' : 'http:');
+        var callToPP = function () {
+            setTimeout(function () {
+                if (p) {
+                    var pi, po, ks, img;
+                    for (pi = 0; pi < p.length; pi++) {
+                        po = p[pi];
+                        if (po.length > 1) {
+                            if (po[0] === 'script') {
+                                ks = d.createElement('script');
+                                ks.type = "text/javascript";
+                                ks.src = pr + po[1];
+                                d.body.appendChild(ks);
+                            } else if (po[0] === 'image') {
+                                img = d.createElement("img");
+                                img.src = pr + po[1];
+                            }
+                        }
+                    }
+                }
+            }, 0);
+        };
+        if (a === 0) {
+            callToPP();
+        } else if (a === 1) {
+            if (d.readyState && d.readyState === "complete") {
+                callToPP();
+            } else {
+                if (w.addEventListener) {
+                    w.addEventListener('load', callToPP, false);
+                } else if (w.attachEvent) {
+                    w.attachEvent('onload', callToPP);
+                }
+            }
+        }
+    }(_src_urls, 1));
+}());

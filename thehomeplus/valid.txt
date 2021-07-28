@@ -1,0 +1,80 @@
+onsubmit="return confirmpwd();
+
+
+<script type="text/javascript">
+function validat(){
+    var nm=/^[a-zA-Z'. -]+$/;
+    var reg = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;         
+    var name=document.getElementById('fname').value;
+    var email=document.getElementById('femail').value;             
+ if (nm.test(name)){
+    if (reg.test(email) ){
+        return true; 
+    }
+    else{
+      alert("Enter valid Email ID");
+     return false;
+    } 
+  return true; 
+ }
+ else{
+   alert("Enter a valid Name");
+  return false;
+  }
+ } 
+</script>
+
+
+<script type="text/javascript">
+function confirmpwd(){
+    var nm=/^[a-zA-Z'. -]+$/;
+    var reg = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;         
+    var name=document.getElementById('name').value;
+    var email=document.getElementById('email').value;             
+    var p = document.getElementById('pass').value;
+    var cp = document.getElementById('cpass').value;
+    var ph = document.getElementById('phone').value;
+    var pon=ph.length;
+    var c=p.length;
+
+ if (nm.test(name)){
+    if (reg.test(email) ){
+        if (pon==10 ){
+            if(p != cp){ 
+              ermsg = "Password Mismatch. Please try again";
+              document.getElementById("errorid").innerHTML = ermsg;
+             return false;
+            }
+            else{
+                if (c<8) {
+                  ermsg = "Password should be minimum of 8 characters";
+                  document.getElementById("errorid").innerHTML = ermsg;
+                 return false;
+                }
+                else{
+                 return true;
+                }
+             return true;
+            }
+         return true; 
+        }
+        else{
+          ermsg = "Enter valid Mobile Number";
+          document.getElementById("errorid").innerHTML = ermsg;
+         return false;
+        } 
+    }
+    else{
+      ermsg = "Enter valid Email ID";
+      document.getElementById("errorid").innerHTML = ermsg;
+     return false;
+    } 
+  return true; 
+ }
+ else{
+   ermsg = "Enter a valid Name";
+   document.getElementById("errorid").innerHTML = ermsg;
+  return false;
+ } 
+}
+</script>
